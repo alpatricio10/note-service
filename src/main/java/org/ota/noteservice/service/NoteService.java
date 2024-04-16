@@ -2,15 +2,23 @@ package org.ota.noteservice.service;
 
 import org.ota.noteservice.data.Note;
 import org.ota.noteservice.data.NotesResponse;
+import org.ota.noteservice.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NoteService {
-    private static final List<Note> notes = new ArrayList<>();
-    private static Long nextId = 1L;
+
+    // in-memory array, contains all the notes being stored
+    private List<Note> notes = new ArrayList<>();
+
+    // a simple counter to keep track of the note identifiers
+    private Long nextId = 1L;
+
+    private static final String NOTE_NOT_FOUND_EXCEPTION = "Note not found";
 
     public Note addNote(Note note) {
         note.setId(nextId++);
@@ -25,20 +33,19 @@ public class NoteService {
         return response;
     }
 
-    public Note getNote(Long id) {
-        for (Note note : notes) {
-            if (note.getId().equals(id)) {
-                return note;
-            }
+    public Note getNote(Long id) throws NotFoundException {
+        Optional<Note> note = notes.stream().filter(n -> n.getId().equals(id)).findFirst();
+        if (note.isEmpty()) {
+            throw new NotFoundException(NOTE_NOT_FOUND_EXCEPTION);
         }
-        return null;
+
+        return note.get();
     }
 
-    public Note updateNote(Long id, Note note) {
+    public Note updateNote(Long id, Note note) throws NotFoundException {
         Note noteToUpdate = getNote(id);
         if (noteToUpdate == null) {
-            // add exception here
-            return null;
+            throw new NotFoundException(NOTE_NOT_FOUND_EXCEPTION);
         }
 
         int index = notes.indexOf(noteToUpdate);
@@ -49,7 +56,12 @@ public class NoteService {
         return noteToUpdate;
     }
 
-    public void deleteNote(Long id) {
-        notes.removeIf(note -> note.getId().equals(id));
+    public void deleteNote(Long id) throws NotFoundException {
+        Note note = getNote(id);
+        if (note == null) {
+            throw new NotFoundException(NOTE_NOT_FOUND_EXCEPTION);
+        }
+
+        notes.remove(note);
     }
 }

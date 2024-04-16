@@ -3,6 +3,7 @@ package org.ota.noteservice.controller;
 import lombok.AllArgsConstructor;
 import org.ota.noteservice.data.Note;
 import org.ota.noteservice.data.NotesResponse;
+import org.ota.noteservice.exception.NotFoundException;
 import org.ota.noteservice.service.NoteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,19 +35,19 @@ public class NoteController {
     }
 
     @GetMapping("/{noteId}")
-    public ResponseEntity<Note> getNote(@PathVariable("noteId") Long noteId) {
+    public ResponseEntity<Note> getNote(@PathVariable("noteId") Long noteId) throws NotFoundException {
         Note note = noteService.getNote(noteId);
         return ResponseEntity.ok(note);
     }
 
     @PutMapping("/{noteId}")
-    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Long noteId, @RequestBody Note note) {
+    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Long noteId, @RequestBody Note note) throws NotFoundException {
         Note updatedNote = noteService.updateNote(noteId, note);
         return ResponseEntity.ok(updatedNote);
     }
 
     @DeleteMapping("/{noteId}")
-    public ResponseEntity<Void> deleteNote(@PathVariable("noteId") Long noteId) {
+    public ResponseEntity<Void> deleteNote(@PathVariable("noteId") Long noteId) throws NotFoundException {
         noteService.deleteNote(noteId);
         return ResponseEntity.noContent().build();
     }
