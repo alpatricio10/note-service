@@ -32,4 +32,10 @@ public class NoteController {
         NotesResponse response = noteService.getNotes();
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{noteId}")
+    public ResponseEntity<Note> getNote(@PathVariable("noteId") Long noteId) {
+        Note note = noteService.getNote(noteId);
+        return ResponseEntity.ok(note);
+    }
 }

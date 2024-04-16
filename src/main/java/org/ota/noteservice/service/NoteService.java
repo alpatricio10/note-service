@@ -24,4 +24,13 @@ public class NoteService {
 
         return response;
     }
+
+    public Note getNote(Long id) {
+        for (Note note : notes) {
+            if (note.getId().equals(id)) {
+                return note;
+            }
+        }
+        return null;
+    }
 }
