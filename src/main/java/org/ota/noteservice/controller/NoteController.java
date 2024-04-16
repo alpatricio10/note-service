@@ -26,4 +26,10 @@ public class NoteController {
         Note createdNote = noteService.addNote(note);
         return ResponseEntity.ok(createdNote);
     }
+
+    @GetMapping
+    public ResponseEntity<NotesResponse> getNotes() {
+        NotesResponse response = noteService.getNotes();
+        return ResponseEntity.ok(response);
+    }
 }

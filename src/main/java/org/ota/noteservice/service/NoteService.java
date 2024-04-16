@@ -17,4 +17,11 @@ public class NoteService {
         notes.add(note);
         return note;
     }
+
+    public NotesResponse getNotes() {
+        NotesResponse response = new NotesResponse();
+        response.setNotes(notes);
+
+        return response;
+    }
 }
