@@ -5,6 +5,7 @@ import org.ota.noteservice.data.NotesResponse;
 import org.ota.noteservice.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,17 @@ public class NoteService {
 
     private static final String NOTE_NOT_FOUND_EXCEPTION = "Note not found";
 
-    public Note addNote(Note note) {
+    public Note addNote(Note note) throws IOException {
+        String title = note.getTitle();
+        if (title == null || title.isEmpty()) {
+            throw new IOException("Title must not be empty");
+        }
+
+        String body = note.getBody();
+        if (body == null || body.isEmpty()) {
+            throw new IOException("Body must not be empty");
+        }
+
         note.setId(nextId++);
         notes.add(note);
         return note;
@@ -42,10 +53,20 @@ public class NoteService {
         return note.get();
     }
 
-    public Note updateNote(Long id, Note note) throws NotFoundException {
+    public Note updateNote(Long id, Note note) throws NotFoundException, IOException {
         Note noteToUpdate = getNote(id);
         if (noteToUpdate == null) {
             throw new NotFoundException(NOTE_NOT_FOUND_EXCEPTION);
+        }
+
+        String title = note.getTitle();
+        if (title == null || title.isEmpty()) {
+            throw new IOException("Title must not be empty");
+        }
+
+        String body = note.getBody();
+        if (body == null || body.isEmpty()) {
+            throw new IOException("Body must not be empty");
         }
 
         int index = notes.indexOf(noteToUpdate);

@@ -15,6 +15,17 @@ import java.io.IOException;
 @ControllerAdvice
 @Slf4j
 public class NoteExceptionHandler {
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ErrorResponse> handleIOException(IOException ex, HandlerMethod handlerMethod) {
+        log.error("Error processing {}: {}", getEndpointInfo(handlerMethod), ex.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode("BadRequest");
+        errorResponse.setMessage(ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex, HandlerMethod handlerMethod) {
         log.error("Error processing {}: {}", getEndpointInfo(handlerMethod), ex.getMessage());

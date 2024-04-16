@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/notes")
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class NoteController {
     private final NoteService noteService;
 
     @PostMapping
-    public ResponseEntity<Note> addNote(@RequestBody Note note) {
+    public ResponseEntity<Note> addNote(@RequestBody Note note) throws IOException {
         Note createdNote = noteService.addNote(note);
         return ResponseEntity.ok(createdNote);
     }
@@ -41,7 +43,7 @@ public class NoteController {
     }
 
     @PutMapping("/{noteId}")
-    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Long noteId, @RequestBody Note note) throws NotFoundException {
+    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Long noteId, @RequestBody Note note) throws NotFoundException, IOException {
         Note updatedNote = noteService.updateNote(noteId, note);
         return ResponseEntity.ok(updatedNote);
     }
