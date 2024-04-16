@@ -48,4 +48,8 @@ public class NoteService {
 
         return noteToUpdate;
     }
+
+    public void deleteNote(Long id) {
+        notes.removeIf(note -> note.getId().equals(id));
+    }
 }
