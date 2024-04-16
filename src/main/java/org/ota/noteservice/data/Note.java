@@ -8,5 +8,5 @@ import lombok.Setter;
 public class Note {
     private Long id;
     private String title;
-    private String content;
+    private String body;
 }

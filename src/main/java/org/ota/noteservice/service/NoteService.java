@@ -43,7 +43,7 @@ public class NoteService {
 
         int index = notes.indexOf(noteToUpdate);
         noteToUpdate.setTitle(note.getTitle());
-        noteToUpdate.setContent(note.getContent());
+        noteToUpdate.setBody(note.getBody());
         notes.set(index, noteToUpdate);
 
         return noteToUpdate;
