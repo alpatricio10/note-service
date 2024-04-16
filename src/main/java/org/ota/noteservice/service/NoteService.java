@@ -33,4 +33,19 @@ public class NoteService {
         }
         return null;
     }
+
+    public Note updateNote(Long id, Note note) {
+        Note noteToUpdate = getNote(id);
+        if (noteToUpdate == null) {
+            // add exception here
+            return null;
+        }
+
+        int index = notes.indexOf(noteToUpdate);
+        noteToUpdate.setTitle(note.getTitle());
+        noteToUpdate.setContent(note.getContent());
+        notes.set(index, noteToUpdate);
+
+        return noteToUpdate;
+    }
 }

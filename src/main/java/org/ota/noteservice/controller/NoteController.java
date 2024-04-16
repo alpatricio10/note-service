@@ -38,4 +38,10 @@ public class NoteController {
         Note note = noteService.getNote(noteId);
         return ResponseEntity.ok(note);
     }
+
+    @PatchMapping("/{noteId}")
+    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Long noteId, @RequestBody Note note) {
+        Note updatedNote = noteService.updateNote(noteId, note);
+        return ResponseEntity.ok(updatedNote);
+    }
 }
