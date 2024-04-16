@@ -1,15 +1,15 @@
 package org.ota.noteservice.controller;
 
 import lombok.AllArgsConstructor;
-import org.ota.noteservice.data.NotesResponse;
 import org.ota.noteservice.data.Note;
+import org.ota.noteservice.data.NotesResponse;
 import org.ota.noteservice.service.NoteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +39,7 @@ public class NoteController {
         return ResponseEntity.ok(note);
     }
 
-    @PatchMapping("/{noteId}")
+    @PutMapping("/{noteId}")
     public ResponseEntity<Note> updateNote(@PathVariable("noteId") Long noteId, @RequestBody Note note) {
         Note updatedNote = noteService.updateNote(noteId, note);
         return ResponseEntity.ok(updatedNote);
